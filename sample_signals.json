@@ -1,0 +1,37 @@
+{
+  "signals": [
+    {
+      "company": "ABC Otomotiv",
+      "title": "Boya hattı ve jet-pulse filtrasyon modernizasyonu",
+      "description": "Yeni kurutma hattı ile birlikte baca emisyon kontrol sistemi devreye alındı.",
+      "source_url": "https://example.com/abc-boya-modernizasyon",
+      "source_type": "resmi",
+      "country": "Türkiye",
+      "sector": "endüstriyel tesis",
+      "tags": ["boyahane", "filtrasyon", "kurutma"],
+      "event_date": "2026-01-20"
+    },
+    {
+      "company": "XYZ Havalimanı İşletmesi",
+      "title": "Terminal çatı yenileme ve çelik konstrüksiyon genişlemesi",
+      "description": "Ana yüklenici EPC modeli ile apron bağlantılı hangar yapıları inşa edecek.",
+      "source_url": "https://example.com/xyz-airport-expansion",
+      "source_type": "ulusal",
+      "country": "Türkiye",
+      "sector": "altyapı",
+      "tags": ["havaalanı", "çatı", "epc", "çelik konstrüksiyon"],
+      "event_date": "2026-02-01"
+    },
+    {
+      "company": "QWE Tekstil",
+      "title": "Tekstil fabrikasında kapasite artışı",
+      "description": "İplik hatlarında modernizasyon planlandı.",
+      "source_url": "https://example.com/qwe-tekstil",
+      "source_type": "yerel",
+      "country": "Türkiye",
+      "sector": "tekstil",
+      "tags": ["kapasite"],
+      "event_date": "2026-01-10"
+    }
+  ]
+}
