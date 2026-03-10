@@ -36,6 +36,20 @@
         </div>
         <button class="btn btn-ghost btn-sm" onclick="runTrends()">Çalıştır</button>
       </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-subtle)">
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--accent)">🔄 Sinyalleri Yeniden Skorla</div>
+          <div style="font-size:12px;color:var(--text-muted)">Mevcut sinyallere TRENG/İRDA skorlarını uygula, kapsam dışını işaretle</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="rescoreAll()">Başlat</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-subtle)">
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--text-primary)">Kapsam Dışı Kaynakları Pasife Al</div>
+          <div style="font-size:12px;color:var(--text-muted)">GES, yarı iletken, veri merkezi, teknoloji kaynaklarını devre dışı bırak</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="deactivateOosSources()">Uygula</button>
+      </div>
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
         <div>
           <div style="font-size:13px;font-weight:500;color:var(--text-primary)">Ollama Cache Sıfırla</div>
@@ -229,6 +243,20 @@ async function runTrends() {
     await API.post('/api/trends/analyze');
     Toast.success('Trend analizi başlatıldı');
   } catch(e) { Toast.error('Başlatılamadı'); }
+}
+
+async function rescoreAll() {
+  try {
+    await API.post('/api/system/rescore-all');
+    Toast.success('Yeniden skorlama başlatıldı — 1-2 dakika sürebilir. Logları takip edin.', 8000);
+  } catch(e) { Toast.error('Başlatılamadı'); }
+}
+
+async function deactivateOosSources() {
+  try {
+    const r = await API.post('/api/system/deactivate-oos-sources');
+    Toast.success(`${r.deactivated} kapsam dışı kaynak pasife alındı.`);
+  } catch(e) { Toast.error('Hata oluştu'); }
 }
 
 async function resetOllama() {

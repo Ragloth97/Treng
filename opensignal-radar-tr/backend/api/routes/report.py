@@ -172,8 +172,8 @@ Sadece özeti yaz, başlık veya madde işareti ekleme."""
 @router.get("/generate")
 def generate_report(
     days: int = Query(default=7, ge=1, le=120),
-    treng_min: float = Query(default=20.0),
-    irda_min: float = Query(default=20.0),
+    treng_min: float = Query(default=5.0),
+    irda_min: float = Query(default=5.0),
     include_rejected: bool = False,
     db: Session = Depends(get_db),
 ):
@@ -189,8 +189,8 @@ def generate_report(
         .filter(Signal.created_at >= since)
         .filter(Signal.is_duplicate == False)
     )
-    if not include_rejected:
-        q = q.filter(Signal.review_status != ReviewStatus.REJECTED)
+    # Kapsam dışı (REJECTED) sinyaller her zaman dışlanır
+    q = q.filter(Signal.review_status != ReviewStatus.REJECTED)
 
     all_signals = q.order_by(Signal.composite_score.desc()).all()
 

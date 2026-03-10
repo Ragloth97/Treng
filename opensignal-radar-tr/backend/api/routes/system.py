@@ -201,3 +201,80 @@ def _run_processing_only():
         )
     finally:
         db.close()
+
+
+@router.post("/rescore-all")
+def rescore_all_signals(
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """
+    Tüm mevcut sinyallere TRENG/İRDA skorlarını uygula.
+    Kapsam dışı sinyalleri REJECTED olarak işaretle.
+    """
+    background_tasks.add_task(_rescore_all)
+    return {"success": True, "message": "Yeniden skorlama başlatıldı"}
+
+
+@router.post("/deactivate-oos-sources")
+def deactivate_oos_sources(db: Session = Depends(get_db)):
+    """Kapsam dışı kaynakları pasife al."""
+    OOS_NAMES = [
+        "Electrek - EV & Energy", "PV Tech - Solar", "Semiconductor Engineering",
+        "Tom's Hardware", "Data Center Dynamics", "TechCrunch", "Defense News",
+        "Reuters - Technology", "Financial Times", "Mergermarket",
+        "S&P Global Market Intelligence",
+    ]
+    from backend.db.models import Source
+    updated = 0
+    for name in OOS_NAMES:
+        src = db.query(Source).filter(Source.name == name).first()
+        if src and src.is_active:
+            src.is_active = False
+            updated += 1
+    db.commit()
+    return {"success": True, "deactivated": updated}
+
+
+def _rescore_all():
+    """Background: tüm sinyalleri TRENG/İRDA ile yeniden skorla."""
+    from backend.db.database import SessionLocal
+    from backend.db.models import Signal, Article, ReviewStatus
+    from backend.signals.treng_scorer import score_signal
+
+    db = SessionLocal()
+    try:
+        signals = db.query(Signal).all()
+        rescored = 0
+        rejected = 0
+
+        for sig in signals:
+            article = sig.article
+            if not article:
+                continue
+            text = article.cleaned_text or article.raw_text or ""
+            title = article.title or ""
+            ts, ir = score_signal(text, title)
+            sig.treng_score = ts
+            sig.irda_score = ir
+
+            # Kapsam dışı → REJECTED
+            if ts < 5.0 and ir < 5.0 and not sig.matched_watchlist:
+                sig.review_status = ReviewStatus.REJECTED
+                rejected += 1
+
+            rescored += 1
+
+        db.commit()
+        # Log
+        log = SystemLog(
+            event_type="rescore_run",
+            level="INFO",
+            message=f"{rescored} sinyal yeniden skorlandı, {rejected} kapsam dışı işaretlendi",
+            details={"rescored": rescored, "rejected": rejected},
+            created_at=datetime.utcnow(),
+        )
+        db.add(log)
+        db.commit()
+    finally:
+        db.close()

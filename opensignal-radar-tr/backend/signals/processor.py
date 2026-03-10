@@ -148,6 +148,14 @@ class SignalProcessor:
             if matched:
                 signal.matched_watchlist = matched
 
+            # ── Kapsam dışı filtresi ─────────────────────────────────────────
+            # Ne TRENG ne İRDA için alakalı, takip listesiyle de eşleşmiyor → REJECT
+            if treng_score < 5.0 and irda_score < 5.0 and not matched:
+                signal.review_status = ReviewStatus.REJECTED
+                signal.detection_method = "rules_oos"  # out-of-scope
+                saved += 1
+                continue
+
             # AI ile zenginleştir (Groq varsa)
             if self.ai_enabled:
                 updates = self.enhancer.enhance_signal(

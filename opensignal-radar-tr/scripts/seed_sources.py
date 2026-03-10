@@ -32,6 +32,7 @@ SEED_SOURCES = [
         "language": "en",
         "trust_score": 0.95,
         "priority_score": 0.85,
+        "is_active": False,
     },
     {
         "name": "Bloomberg Industry",
@@ -52,6 +53,7 @@ SEED_SOURCES = [
         "language": "en",
         "trust_score": 0.92,
         "priority_score": 0.82,
+        "is_active": False,
     },
 
     # ── Endüstri ve Sektör Haberleri ─────────────────────────────────────────
@@ -65,6 +67,7 @@ SEED_SOURCES = [
         "trust_score": 0.80,
         "priority_score": 0.85,
         "notes": "Elektrikli araç ve enerji yatırımları için güçlü kaynak.",
+        "is_active": False,
     },
     {
         "name": "PV Tech - Solar",
@@ -76,6 +79,7 @@ SEED_SOURCES = [
         "trust_score": 0.85,
         "priority_score": 0.80,
         "notes": "Güneş enerjisi yatırımları.",
+        "is_active": False,
     },
     {
         "name": "Semiconductor Engineering",
@@ -87,6 +91,7 @@ SEED_SOURCES = [
         "trust_score": 0.85,
         "priority_score": 0.90,
         "notes": "Yarı iletken ve çip üretim haberleri.",
+        "is_active": False,
     },
     {
         "name": "Tom's Hardware",
@@ -97,6 +102,7 @@ SEED_SOURCES = [
         "language": "en",
         "trust_score": 0.78,
         "priority_score": 0.70,
+        "is_active": False,
     },
     {
         "name": "Mining Technology",
@@ -119,6 +125,7 @@ SEED_SOURCES = [
         "trust_score": 0.88,
         "priority_score": 0.88,
         "notes": "Veri merkezi yatırımları için kritik kaynak.",
+        "is_active": False,
     },
     {
         "name": "Automotive News",
@@ -442,6 +449,7 @@ SEED_SOURCES = [
         "trust_score": 0.88,
         "priority_score": 0.82,
         "notes": "M&A haberleri. Satın alma sinyalleri için.",
+        "is_active": False,
     },
     {
         "name": "S&P Global Market Intelligence",
@@ -452,6 +460,7 @@ SEED_SOURCES = [
         "language": "en",
         "trust_score": 0.92,
         "priority_score": 0.85,
+        "is_active": False,
     },
 
     # ── Savunma ve Teknoloji ────────────────────────────────────────────────
@@ -465,6 +474,7 @@ SEED_SOURCES = [
         "trust_score": 0.88,
         "priority_score": 0.80,
         "notes": "Savunma sanayi yatırımları.",
+        "is_active": False,
     },
     {
         "name": "TechCrunch",
@@ -476,6 +486,7 @@ SEED_SOURCES = [
         "trust_score": 0.80,
         "priority_score": 0.72,
         "notes": "Teknoloji yatırımları, veri merkezi açılışları.",
+        "is_active": False,
     },
 ]
 
